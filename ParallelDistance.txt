@@ -1,0 +1,35 @@
+/*  def subDist(p: Array[Double], q: Array[Double], s: Int, f: Int, minlength: Int): Double = {
+    val l = f - s
+    var dist = 0.0
+    if (l < minlength) {
+      var i = s
+      while (i < f) {
+        val d = p(i) - q(i)
+        dist += d * d
+        i += 1
+      }
+    } else {
+      val m = s + (f - s) / 2
+      val (x, y) = parallel(subDist(p, q, s, m, minlength), subDist(p, q, m, f, minlength))
+      dist = x + y
+    }
+    sqrt(dist)
+  }
+
+  def subdepDist(p: Array[Double], q: Array[Double], s: Int, f: Int, depth: Int, maxDepth: Int): Double = {
+    var dist = 0.0
+
+    if (depth >= maxDepth) {
+      var i = s
+      while (i < f) {
+        val d = p(i) - q(i)
+        dist += d * d
+        i += 1
+      }
+    } else {
+      val m = s + (f - s) / 2
+      val (x, y) = parallel(subdepDist(p, q, s, m, depth + 1, maxDepth), subdepDist(p, q, m, f, depth + 1, maxDepth))
+      dist = x + y
+    }
+    sqrt(dist)
+  }*/

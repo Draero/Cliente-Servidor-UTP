@@ -1,0 +1,59 @@
+[debug] > Exec(early(addDefaultCommands), None, None)
+[debug] > Exec(addDefaultCommands, None, None)
+[debug] > Exec(early(initialize), None, None)
+[debug] > Exec(initialize, None, None)
+[debug] > Exec(boot, None, None)
+[debug] > Exec(writeSbtVersion, None, None)
+[debug] > Exec(reload, None, None)
+[debug] > Exec(sbtStashOnFailure, None, None)
+[debug] > Exec(onFailure loadFailed, None, None)
+[debug] > Exec(loadp, None, None)
+[info] welcome to sbt 1.4.7 (Oracle Corporation Java 16)
+[debug]       Load.loadUnit: plugins took 246.268058ms
+[debug]       Load.loadUnit: defsScala took 1.037907ms
+[debug] [Loading] Scanning directory /home/edwingg/.sbt/1.0/plugins
+[debug] [Loading] Found non-root projects 
+[debug] [Loading] Done in /home/edwingg/.sbt/1.0/plugins, returning: ()
+[debug] deducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(List(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin))), Clause(Atom(sbt.ScriptedPlugin),Set(Atom(sbt.plugins.JvmPlugin))), Clause(Atom(sbt.plugins.SbtPlugin),Set(Atom(sbt.ScriptedPlugin))), Clause(Atom(sbt.plugins.SemanticdbPlugin),Set(Atom(sbt.plugins.JvmPlugin))), Clause(Atom(sbt.plugins.JUnitXmlReportPlugin),Set(Atom(sbt.plugins.JvmPlugin))), Clause(Atom(sbt.plugins.MiniDependencyTreePlugin),Set(Atom(sbt.plugins.JvmPlugin))), Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.IvyPlugin))), Clause(Atom(sbt.plugins.IvyPlugin),Set(Atom(sbt.plugins.JvmPlugin))), Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.SemanticdbPlugin))), Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.JUnitXmlReportPlugin))), Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin))), Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin)))))
+[debug]   :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.MiniDependencyTreePlugin,sbt.plugins.JUnitXmlReportPlugin,sbt.plugins.SemanticdbPlugin)
+[debug] Plugins.deducer#function took 62.20499 ms
+[debug]           Load.resolveProject(global-plugins) took 178.081415ms
+[debug]         Load.loadTransitive: finalizeProject(Project(id global-plugins, base: /home/edwingg/.sbt/1.0/plugins, plugins: List(<none>))) took 328.772132ms
+[debug] [Loading] Done in /home/edwingg/.sbt/1.0/plugins, returning: (global-plugins)
+[debug]       Load.loadUnit: loadedProjectsRaw took 409.05581ms
+[debug]       Load.loadUnit: cleanEvalClasses took 0.636844ms
+[debug]     Load.loadUnit(file:/home/edwingg/.sbt/1.0/plugins/, ...) took 699.661219ms
+[debug]   Load.apply: load took 2064.756816ms
+[debug]   Load.apply: resolveProjects took 47.143878ms
+[debug]   Load.apply: finalTransforms took 326.918989ms
+[debug]   Load.apply: config.delegates took 21.836399ms
+[debug]   Load.apply: Def.make(settings)... took 1792.660793ms
+[debug]   Load.apply: structureIndex took 363.488944ms
+[debug]   Load.apply: mkStreams took 177.3428ms
+[info] loading global plugins from /home/edwingg/.sbt/1.0/plugins
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[debug] Load.defaultLoad until apply took 504007.253793ms
+[debug]           Load.loadUnit: plugins took 14545.809956ms
+[debug]           Load.loadUnit: defsScala took 0.045729ms
+[debug] [Loading] Scanning directory /home/edwingg/Documentos/Cliente_Servidor/CodeF/project
+[debug] [Loading] Found non-root projects 
+[debug] [Loading] Done in /home/edwingg/Documentos/Cliente_Servidor/CodeF/project, returning: ()
+[debug] deducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(List(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin))), Clause(Atom(sbt.ScriptedPlugin),Set(Atom(sbt.plugins.JvmPlugin))), Clause(Atom(sbt.plugins.SbtPlugin),Set(Atom(sbt.ScriptedPlugin))), Clause(Atom(sbt.plugins.SemanticdbPlugin),Set(Atom(sbt.plugins.JvmPlugin))), Clause(Atom(sbt.plugins.JUnitXmlReportPlugin),Set(Atom(sbt.plugins.JvmPlugin))), Clause(Atom(sbt.plugins.MiniDependencyTreePlugin),Set(Atom(sbt.plugins.JvmPlugin))), Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.IvyPlugin))), Clause(Atom(sbt.plugins.IvyPlugin),Set(Atom(sbt.plugins.JvmPlugin))), Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.SemanticdbPlugin))), Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.JUnitXmlReportPlugin))), Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin))), Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin)))))
+[debug]   :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.MiniDependencyTreePlugin,sbt.plugins.JUnitXmlReportPlugin,sbt.plugins.SemanticdbPlugin)
+[debug] Plugins.deducer#function took 1303.950874 ms
+[debug]               Load.resolveProject(codef-build) took 321.475892ms
+[debug]             Load.loadTransitive: finalizeProject(Project(id codef-build, base: /home/edwingg/Documentos/Cliente_Servidor/CodeF/project, plugins: List(<none>))) took 1775.678758ms
+[debug] [Loading] Done in /home/edwingg/Documentos/Cliente_Servidor/CodeF/project, returning: (codef-build)
+[debug]           Load.loadUnit: loadedProjectsRaw took 2170.373913ms
+[debug]           Load.loadUnit: cleanEvalClasses took 0.107312ms
+[debug]         Load.loadUnit(file:/home/edwingg/Documentos/Cliente_Servidor/CodeF/project/, ...) took 16898.799637ms
+[debug]       Load.apply: load took 17132.03588ms
+[debug]       Load.apply: resolveProjects took 0.553706ms
+[debug]       Load.apply: finalTransforms took 371.575254ms
+[debug]       Load.apply: config.delegates took 1.168077ms
+[debug]       Load.apply: Def.make(settings)... took 11047.618743ms
+[debug]       Load.apply: structureIndex took 660.17432ms
+[debug]       Load.apply: mkStreams took 0.005938ms
+[info] loading project definition from /home/edwingg/Documentos/Cliente_Servidor/CodeF/project
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[warn] In the last 67 seconds, 13.443 (20,1%) were spent in GC. [Heap: 0,11GB free of 0,17GB, max 0,82GB] Consider increasing the JVM heap using `-Xmx` or try a different collector, e.g. `-XX:+UseG1GC`, for better performance.
