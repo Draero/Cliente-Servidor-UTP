@@ -1,4 +1,5 @@
 import concurrency._
+import sun.security.util.Length
 
 import scala.:+
 import scala.collection.immutable.Nil.++
@@ -67,19 +68,26 @@ object Kmeans {
     nearest
   }
 
+  def zeroArray(lengthPoint: Int): Array[Double] = {
+    var zeroArr = new Array[Double](lengthPoint)
+    zeroArr.foreach(i => 0.0)
+    zeroArr
+  }
+
   def kmeansSum(dataset: Array[Array[Double]], clusters:Array[Array[Double]], s:Int, f:Int, minlength:Int): (Array[Array[Double]], Array[Int]) = {
     val l = f - s
     var mediaCluster = new Array[Array[Double]](clusters.length)
     var numPointsCluster = new Array[Int](clusters.length)
+    val lengthPoint = clusters(0).length
     for(i <- 0 until clusters.length){
-      mediaCluster(i) = Array(0,0,0,0,0,0,0)
+      mediaCluster(i) = zeroArray(lengthPoint)
       numPointsCluster(i) = 0
     }
     if(l < minlength){
       for(i <- s until f){
         val centroidPosNum = nearestCentroid(dataset(i), clusters)
         numPointsCluster(centroidPosNum(0)) += 1
-        for (iter <- 0 until 7) {
+        for (iter <- 0 until lengthPoint) {
           mediaCluster(centroidPosNum(0))(iter) += dataset(i)(iter)
         }
       }
@@ -91,7 +99,7 @@ object Kmeans {
       var (r,u) = y
       for(i <- 0 until clusters.length){
         numPointsCluster(i) = w(i) + u(i)
-        for(iter <- 0 until 7){
+        for(iter <- 0 until lengthPoint){
           mediaCluster(i)(iter) = t(i)(iter) + r(i)(iter)
         }
       }
@@ -100,13 +108,14 @@ object Kmeans {
   }
 
   def kmeansIteraction(dataset:Array[Array[Double]], clusters:Array[Array[Double]]): Array[Array[Double]] = {
-    var (mediaCluster, numPointsCluster) = kmeansSum(dataset, clusters, 0, dataset.length, 8)
+    val (mediaCluster, numPointsCluster) = kmeansSum(dataset, clusters, 0, dataset.length, 8)
+    val lengthPoint = clusters(0).length
     for(iter <- 0 until clusters.length){
       if(numPointsCluster(iter) == 0){
-        mediaCluster(iter) = Array(0.0,0.0,0.0,0.0,0.0,0.0,0.0)
+        mediaCluster(iter) = zeroArray(lengthPoint)
       }
       else{
-        for(i <- 0 until 7){
+        for(i <- 0 until lengthPoint){
           mediaCluster(iter)(i) /= numPointsCluster(iter)
           mediaCluster(iter)(i) = BigDecimal(mediaCluster(iter)(i)).setScale(3, BigDecimal.RoundingMode.HALF_UP).toDouble
         }
@@ -161,10 +170,12 @@ object Kmeans {
     // -------------------------- Variables --------------------------------
     val filename = "Happiness.csv"
 //   floors y ceils son para sacar los valores minimos y maximos del data set asi generar los centroides
-    var floors = Array(Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity, Double.PositiveInfinity)
-    var ceils = Array(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+    var floors = new Array[Double](0)
+    var ceils = new Array[Double](0)
+    var flagFloorsCeils = true
     var dataset = new Array[Array[Double]](0)
-
+    var pointLenght = 0
+    val epsilon = 0.000000001
     // ---------------------------------------------------------------------------------
 
     // foooooooooooorrrrr
@@ -176,24 +187,26 @@ object Kmeans {
       var dataPoint = new Array[Double](0)
         // foooooooooorrrrr
       for (po <- poin) {
-        if (count == 0) {
-          count += 1
-        }
-        else if (count == 1) {
-          count += 1
-        }
-        else {
+        var flagDouble = false
+        po.foreach(point => if(point == '.'){flagDouble = true})
+        if(flagDouble){
           val dou = po.toDouble
           dataPoint = dataPoint ++ Array(dou)
-          if (!(floors(count - 2) < dou)) {
-            floors(count - 2) = dou
+          if(flagFloorsCeils){
+            floors = floors ++ Array(Double.PositiveInfinity)
+            ceils = ceils ++ Array(0.0)
           }
-          if (!(ceils(count - 2) > dou)) {
-            ceils(count - 2) = dou
+          if (!(floors(count) < dou)) {
+            floors(count) = dou
+          }
+          if (!(ceils(count) > dou)) {
+            ceils(count) = dou
           }
           count += 1
         }
       }
+      flagFloorsCeils = false
+      pointLenght = count
       dataset = dataset ++ Array(dataPoint)
     }
 
@@ -204,40 +217,35 @@ object Kmeans {
 
       val clusters = centroidsGenerate(floors, ceils, e)
       var mediaCluster = kmeansIteraction(dataset,clusters)
-      for(i <- 0 until 8){
-        mediaCluster = kmeansIteraction(dataset, mediaCluster)
-      }
+      mediaCluster = kmeansIteraction(dataset, mediaCluster)
 
       for(i <- 0 until mediaCluster.length){
-        val point = Array(0.0,0.0,0.0,0.0,0.0,0.0,0.0)
+        val point = new Array[Double](pointLenght)
+        point.foreach(j => 0.0)
         if(mediaCluster(i)(0) == point(0)){
-          println("Entro")
-          var newPoint = new Array[Double](7)
-          for(iter <- 0 until 7){
+          var newPoint = new Array[Double](pointLenght)
+          for(iter <- 0 until pointLenght){
             newPoint(iter) = 0
           }
           for(iter <- 0 until mediaCluster.length){
             if(!(iter == i)){
-              for(it <- 0 until 7){
+              for(it <- 0 until pointLenght){
                 newPoint(it) += mediaCluster(iter)(it)
               }
             }
           }
-          for(it <- 0 until 7){
+          for(it <- 0 until pointLenght){
             newPoint(it) /= (mediaCluster.length - 1)
             newPoint(it) = BigDecimal(newPoint(it)).setScale(3, BigDecimal.RoundingMode.HALF_UP).toDouble
           }
           mediaCluster(i) = newPoint
         }
       }
-
-      for(i <- 0 until 8){
-        mediaCluster = kmeansIteraction(dataset, mediaCluster)
-      }
+      mediaCluster = kmeansIteraction(dataset, mediaCluster)
 
       var mediaClusterGroup = dataset.groupBy(x => nearestCentroid(x, mediaCluster)(0))
       for(i <- 0 until e){
-        for(iter <- 0 until 7){
+        for(iter <- 0 until pointLenght){
           print(mediaCluster(i)(iter))
           print(", ")
         }
@@ -247,15 +255,9 @@ object Kmeans {
       for((k,v) <- mediaClusterGroup){
         println(k)
         for(p <- v){
-          try{
-            printMap(p)
-          }
-          catch {
-            case e: NoSuchElementException => println("No hay puntos designados al cluster " + k)
-          }
+          printMap(p)
         }
       }
-      
 
       var silhoCo = silhouetteCoefficient(mediaClusterGroup, mediaCluster)
       if (silhoCo > silhouetteCoeff){
@@ -267,29 +269,29 @@ object Kmeans {
       println("-------------------------------------------------------")
     }
 
-
-    centroids.foreach(point => println(point.mkString(", ")))
-    println(silhouetteCoeff)
+    val mediaClusterGroup = dataset.groupBy(x => nearestCentroid(x, centroids)(0))
+    var silhoCo = silhouetteCoefficient(mediaClusterGroup, centroids)
     var flag = true
+    var cont = 0
 
     while(flag){
       var cent = centroids
-      var cont = 0
       cent = kmeansIteraction(dataset,cent)
-      var mediaClusterGroup = dataset.groupBy(x => nearestCentroid(x, cent)(0))
-      val silhoCo = silhouetteCoefficient(mediaClusterGroup, cent)
-      if(silhoCo <= silhouetteCoeff){
-        println(silhoCo)
-        println(cont)
-        flag = false
+      val mediaClusterGroup = dataset.groupBy(x => nearestCentroid(x, cent)(0))
+      silhoCo = silhouetteCoefficient(mediaClusterGroup, cent)
+      for(i <- 0 until cent.length){
+        val difDistance = distance(centroids(i), cent(i))
+        if(difDistance <= epsilon){
+          flag = false
+        }
       }
-      else{
-        centroids = cent
-        cont += 1
-      }
+      centroids = cent
+      cont += 1
     }
 
-
+    println("Centroides elegidos")
+    centroids.foreach(point => println(point.mkString(", ")))
+    println("Coeficiente de silueta final: " + silhoCo)
+    println("Iteraciones del Kmeans: "+ cont)
   }
-
 }
